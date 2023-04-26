@@ -1,4 +1,4 @@
 # Trabalho_Redes
 Repositório para trabalho prático de redes 
-Alunos: Davi Freire Azvedo
+Alunos: Davi Freire Azevedo
 Matrícula: 498905
