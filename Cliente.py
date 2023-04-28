@@ -1,26 +1,32 @@
 # -*- coding: utf-8 -*-
 import socket
+import random
+import time
 
-IP= '127.0.0.1'
-Port= 5000
-
-cliente= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-cliente.connect((IP, Port))
+def gerador():
+    gerar_num = random.randint(0, 10**30)
+    return gerar_num
 
 
-mensagem= input('Digite uma mensagem para o servidor: ')
 
-while True:
-    if  mensagem == 'sair':
-        cliente.close()
-        break
-    elif(mensagem):
-        cliente.sendall(str.encode(mensagem))
+def cliente():
+    IP= '127.0.0.1'
+    Port= 5000
+    cliente= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    cliente.connect((IP, Port))
+
+    print('Conectado ao servidor')
+    while True:
         
+        gerar = gerador()
+        cliente.sendall(str.encode(str(gerar)))
         recebe= cliente.recv(1024)
-        print('Servidor disse: ', str(recebe,'utf-8'))
-        mensagem= input('Digite uma mensagem para o servidor: ')
-            
+        print('Servidor recebeu: ', str(recebe,'utf-8'))
+
+        time.sleep(10)
+
+   
+cliente()
   
 
 
