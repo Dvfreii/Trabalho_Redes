@@ -50,4 +50,3 @@ Fecha a conexão com o cliente usando close().
 
 servidor(): Esta função inicia o servidor. Ela cria um objeto de socket (servidor), vincula-o a um endereço IP e porta especificados e o coloca em modo de escuta. Em seguida, entra em um loop infinito em que aguarda a conexão de clientes. Quando uma conexão é estabelecida, chama a função verifica() para lidar com o cliente.
 
-
