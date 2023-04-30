@@ -2,30 +2,20 @@
 import socket
 
 # Cria o socket
-IP='localhost'
-PORT=5000
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+IP= 'localhost'
+PORT= 5000
 
-servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-servidor.bind((IP, PORT))
-servidor.listen(1)
-
-print('Aguardando conexão de um cliente')
+server_socket.bind((IP, PORT))
+print("Servidor iniciado. Aguardando solicitações...")
 
 while True:
-    # Recebe uma mensagem do cliente
-    conexao, cliente = servidor.accept()
-    print('Conectado em', cliente)
-    
-    while True:
-        recebe = conexao.recv(1024) 
-        if recebe:
-            print(cliente, 'disse: ',str(recebe,'utf-8'))
-            msg= input('Digite uma mensagem para o cliente: ')
-            conexao.sendall(str.encode(msg))
-
-        else:
-            print('Fechando a conexão')
-            conexao.close()
+    MSG, client_address = server_socket.recvfrom(1024)
+    print("Solicitação recebida do cliente:", client_address)
+    PRINT= str(MSG, 'utf-8')
+        
+    resposta = input("Digite uma mensagem para cliente: ")
+    server_socket.sendto(str.encode(resposta), client_address)
            
     
             

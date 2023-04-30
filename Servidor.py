@@ -1,31 +1,40 @@
-# -*- coding: utf-8 -*-
+''' Nome: Davi Freire Azevedo | Matricula: 498905 '''
 import socket
 
-# Cria o socket
-IP='localhost'
-PORT=5000
+def divisivel(NUM):
+    return NUM % 2 == 0  
 
-servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-servidor.bind((IP, PORT))
-servidor.listen(1)
 
-print('Aguardando conexão de um cliente')
+def verifica(conexao):
+    recebe = conexao.recv(1024).decode() 
+    print('Numero: ',recebe)
 
-while True:
-    # Recebe uma mensagem do cliente
-    conexao, cliente = servidor.accept()
-    print('Conectado em', cliente)
-    
-    while True:
-        recebe = conexao.recv(1024) 
-        if recebe:
-            print(cliente, 'disse: ',str(recebe,'utf-8'))
-            msg= input('Digite uma mensagem para o cliente: ')
-            conexao.sendall(str.encode(msg))
-
+    if len(recebe) > 10:
+        resposta = str(recebe)
+    else:
+        if divisivel(int(recebe)):
+            resposta = "PAR"
         else:
-            print('Fechando a conexão')
-            conexao.close()
-           
-    
+            resposta = "ÍMPAR"
+    conexao.sendall(resposta.encode())
+    conexao.close()
+
+            
+
+def servidor():
+    IP='localhost'
+    PORT=5000
+
+    servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    servidor.bind((IP, PORT))
+    servidor.listen(1)
+
+    print('Aguardando conexão de um cliente')
+    while True:
+        conexao, cliente = servidor.accept()
+        print('Conectado em', cliente)
+        verifica(conexao)
+            
+
+servidor()
             

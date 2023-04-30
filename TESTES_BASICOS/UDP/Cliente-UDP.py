@@ -1,27 +1,16 @@
 # -*- coding: utf-8 -*-
 import socket
 
-IP= '127.0.0.1'
-Port= 5000
+IP= 'localhost'
+PORT= 5000
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-cliente= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-cliente.connect((IP, Port))
-
-
-mensagem= input('Digite uma mensagem para o servidor: ')
+server_address = (IP, PORT)
 
 while True:
-    if  mensagem == 'sair':
-        cliente.close()
-        break
-    elif(mensagem):
-        cliente.sendall(str.encode(mensagem))
+    message = input("Digite uma mensagem: ")
+    client_socket.sendto(str.encode(message), server_address)
         
-        recebe= cliente.recv(1024)
-        print('Servidor disse: ', str(recebe,'utf-8'))
-        mensagem= input('Digite uma mensagem para o servidor: ')
-            
-  
-
-
+    msg, _ = client_socket.recvfrom(1024)
+    print("Resposta recebida do servidor :", str(msg.decode()))
 

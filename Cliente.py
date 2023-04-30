@@ -1,26 +1,36 @@
-# -*- coding: utf-8 -*-
+''' Nome: Davi Freire Azevedo | Matricula: 498905 '''
 import socket
+import random
+import time
 
-IP= '127.0.0.1'
-Port= 5000
-
-cliente= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-cliente.connect((IP, Port))
+def gerador():
+    gerar_num = str(random.randint(0, 10**30))
+    return gerar_num
 
 
-mensagem= input('Digite uma mensagem para o servidor: ')
 
-while True:
-    if  mensagem == 'sair':
-        cliente.close()
-        break
-    elif(mensagem):
-        cliente.sendall(str.encode(mensagem))
+def cliente():
+    print('Conectado ao servidor')
+    while True:
+        IP= '127.0.0.1'
+        Port= 5000
+        cliente= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        cliente.connect((IP, Port))
         
-        recebe= cliente.recv(1024)
-        print('Servidor disse: ', str(recebe,'utf-8'))
-        mensagem= input('Digite uma mensagem para o servidor: ')
-            
+        gerar = gerador()
+        print("Número gerado:", gerar)
+
+        cliente.sendall(gerar.encode())
+        recebe= cliente.recv(1024).decode()
+        print('Servidor recebeu: ', recebe)
+
+        cliente.close()
+        print("FIM")
+
+        time.sleep(10)
+
+   
+cliente()
   
 
 
